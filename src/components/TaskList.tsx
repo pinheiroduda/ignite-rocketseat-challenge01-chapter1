@@ -14,18 +14,18 @@ export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
-  function handleCreateNewTask() { // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+  function handleCreateNewTask() { //Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    if (!newTaskTitle) {
+      return alert("Sorry, you can't create a task without a title!");
+    }
+
     const newTask = {
       id: Math.random(),
       title: newTaskTitle,
       isComplete: false,
     }
-
-    if (!newTaskTitle) {
-      return alert("Sorry, you can't create a task without a title!");
-    }
     
-    setTasks(tasks => [...tasks, newTask]) // ver com emilio
+    setTasks(tasks => [...tasks, newTask])
     setNewTaskTitle('')
   }
 
@@ -35,14 +35,23 @@ export function TaskList() {
       isComplete: !tasks.isComplete,
     } : tasks)
 
+    // const completeTasks = tasks.map(task => {
+    //   if(task.id === id) {
+    //     return {
+    //       ...task,
+    //       isComplete: !task.isComplete,
+    //     }
+    //   } else {
+    //     return task
+    //   } 
+    // })
+
     setTasks(completeTask)
     return alert('Congrats! You just completed one of your tasks.')
   }
 
-  function handleRemoveTask(id: number) { // Remova uma task da listagem pelo ID
-    const deleteTask = tasks.filter(tasks => tasks.id !== id)
-
-    setTasks(deleteTask)
+  function handleRemoveTask(id: number) { // Remova uma task da listagem pelo IDs
+    setTasks(tasks => tasks.filter(task => task.id !== id))
   }
 
   return (
